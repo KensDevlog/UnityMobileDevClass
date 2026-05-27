@@ -37,7 +37,7 @@ public class GPSFind : MonoBehaviour
         Input.location.Start(5f, 2f);
 
         int timeout = 20;
-        while (Input.location.status == LocationServiceStatus.Initializing && timeout > 0)
+        while (Input.location.status == LocationServiceStatus.Stopped && timeout > 0)
         {
             yield return new WaitForSeconds(1);
             timeout--;
@@ -85,7 +85,9 @@ public class GPSFind : MonoBehaviour
         if (distance > coldRadius) target = colorCold;
         else if (distance > lukewarmRadius) target = colorLukewarm;
         else if (distance > warmRadius) target = colorWarm;
-        else target = colorWarm;
+        else target = colorHot;
+
+        temperatureIndicator.color = Color.Lerp(temperatureIndicator.color, target, 0.1f);
     }
 
     private void UpdateDirectionArrow(float dataLatitude, float dataLongitude)
